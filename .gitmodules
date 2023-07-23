@@ -2,3 +2,6 @@
 	path = ouster_example
 	url = https://github.com/ouster-lidar/ouster_example
 	ignore = dirty
+[submodule "rapidcsv"]
+	path = rapidcsv
+	url = https://github.com/d99kris/rapidcsv

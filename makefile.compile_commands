@@ -1,0 +1,12 @@
+DIR := $(shell pwd)
+
+compile_commands.json: makefile.compile_commands
+	echo                                                     '\n'\
+	'['                                                      '\n'\
+	'  {'                                                    '\n'\
+	'    "directory": "'$(DIR)'",'                           '\n'\
+	'    "arguments": ["dummy", "-std=c++17", "-Iinclude"],' '\n'\
+	'    "file": "ouster-laz.cc"'                            '\n'\
+	'  }'                                                    '\n'\
+	']'                                                      '\n'\
+	> compile_commands.json
