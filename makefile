@@ -1,5 +1,6 @@
 CXXFLAGS := -std=c++17
 CPPFLAGS := -Iinclude
+LDLIBS := -lproj
 
 ouster-laz: ouster-laz.cc
 
