@@ -1,12 +1,17 @@
 DIR := $(shell pwd)
 
 compile_commands.json: makefile.compile_commands
-	echo                                                     '\n'\
-	'['                                                      '\n'\
-	'  {'                                                    '\n'\
-	'    "directory": "'$(DIR)'",'                           '\n'\
-	'    "arguments": ["dummy", "-std=c++17", "-Iinclude"],' '\n'\
-	'    "file": "ouster-laz.cc"'                            '\n'\
-	'  }'                                                    '\n'\
-	']'                                                      '\n'\
+	echo                             '\n'\
+	'['                              '\n'\
+	'  {'                            '\n'\
+	'    "directory": "'$(DIR)'",'   '\n'\
+	'    "arguments": ['             '\n'\
+	'      "dummy",'                 '\n'\
+	'      "-std=c++17",'            '\n'\
+	'      "-I/usr/include/eigen3",' '\n'\
+	'      "-Iinclude"'              '\n'\
+	'    ],'                         '\n'\
+	'    "file": "ouster-laz.cc"'    '\n'\
+	'  }'                            '\n'\
+	']'                              '\n'\
 	> compile_commands.json

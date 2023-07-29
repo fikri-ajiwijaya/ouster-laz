@@ -1,7 +1,6 @@
-#include <iostream>
 #include <rapidcsv.h>
-#include <cstdint>
 #include <proj.h>
+#include <ouster/client.h>
 
 #include <iomanip>
 
@@ -19,14 +18,11 @@ int main(int const argc, char const * const * const argv) {
 		return -1;
 	}
 
-	char const* const imu_file = argv[1];
-	char const* const pcap_file = argv[2];
-	char const* const json_file = argv[3];
+	char const* const imu_filename = argv[1];
+	char const* const pcap_filename = argv[2];
+	char const* const json_filename = argv[3];
 
-	rapidcsv::Document const imu = rapidcsv::Document(imu_file);
-
-	// std::vector<uint_fast32_t> timestamp = imu.GetRow<uint_fast32_t>("Unix Time");
-	// std::size_t const imu_rows = timestamp.size();
+	rapidcsv::Document const imu = rapidcsv::Document(imu_filename);
 
 	std::size_t const imu_rows = imu.GetRowCount();
 
@@ -79,13 +75,24 @@ int main(int const argc, char const * const * const argv) {
 			z.push_back(b.xyzt.z);
 		}
 
-		std::cout << std::fixed << std::showpoint << std::setprecision(8);
-		for (std::size_t i = 0; i < imu_rows; ++i)
-			std::cout << "[" << longitude[i] << ", " << latitude[i] << ", " << height[i] << "]    [" << x[i] << ", " << y[i] << ", " << z[i] << "]\n";
-		std::cout << imu_rows << "\n";
+		// std::cout << std::fixed << std::showpoint << std::setprecision(8);
+		// for (std::size_t i = 0; i < imu_rows; ++i)
+		// 	std::cout << "[" << longitude[i] << ", " << latitude[i] << ", " << height[i] << "]    [" << x[i] << ", " << y[i] << ", " << z[i] << "]\n";
+		// std::cout << imu_rows << "\n";
 
 		proj_destroy(P);
 	}
+
+	std::vector<double> pitch = imu.GetColumn<double>("Pitch");
+	std::vector<double> heading = imu.GetColumn<double>("Heading");
+
+	ouster::sensor::sensor_info metadata = ouster::sensor::metadata_from_json(json_filename);
+
+	for (std::size_t i = 0; i < metadata.beam_azimuth_angles.size(); ++i)
+		std::cout
+			<< std::setw(8) << metadata.beam_azimuth_angles[i] << " "
+			<< std::setw(8) << metadata.beam_altitude_angles[i] << "\n"
+		;
 
 	std::cout << "Hello, world!\n";
 	return 0;
